@@ -10,7 +10,7 @@ function getRandomIntInclusive(min, max){
 
 function injectHTML (list) {
   console.log('fired injectHTML')
-  const target = document.querySelector('#restaurants_list');
+  const target = document.querySelector('#restaurant_list');
   target.innerHTML = '';
   list.forEach((item, index) => {
     const str = `<li>${item.name}</li>`;
@@ -32,7 +32,7 @@ console.log('fired cut list');
 const range = [...Array(15).keys()];
 return newArray = range.map((item) => {
   const idx = getRandomIntInclusive(0, list.length -1);
-  return list[index]
+  return list[idx]
 })
 }
 
@@ -43,7 +43,7 @@ async function mainEvent() { // the async keyword means we can make API requests
   const generateListButton = document.querySelector('#generate');
 
   const loadAnimation = document.querySelector('#data_load_animation');
-  loadAnimation.display = 'none';
+  loadAnimation.style.display = 'none';
   let currentList = []; // this is "scoped" to the main event function
 
   
@@ -58,21 +58,13 @@ async function mainEvent() { // the async keyword means we can make API requests
 
     // This changes the response from the GET into data we can use - an "object"
     currentList = await results.json();
-    loadAnimation.display = 'none';
+    loadAnimation.style.display = 'none';
     console.table(currentList); 
   });
 
 
   filterDataButton.addEventListener('click', (event) => {
     console.log('clicked FilterButton');
-
-    generateListButton.addEventListener('click', (event) => {
-      console.log('generate new list');
-      const restaurantsList = cutRestaurantList(currentList);
-      console.log(restaurantsList);
-      injectHTML(restaurantsList);
-    })
-
     const formData = new FormData(mainForm);
     const formProps = Object.fromEntries(formData);
 
@@ -81,6 +73,13 @@ async function mainEvent() { // the async keyword means we can make API requests
 
     console.log(newList);
     injectHTML(newList);
+})
+
+generateListButton.addEventListener('click', (event) => {
+  console.log('generate new list');
+  const restaurantsList = cutRestaurantList(currentList);
+  console.log(restaurantsList);
+  injectHTML(restaurantsList);
 })
   /*
     Now that you HAVE a list loaded, write an event listener set to your filter button
