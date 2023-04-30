@@ -41,6 +41,7 @@ async function mainEvent() {
   const mainForm = document.querySelector(".main_form"); // This class name needs to be set on your form before you can listen for an event on it
   const filterDataButton = document.querySelector("#filter");
   const loadDataButton = document.querySelector("#data_load");
+  const clearDataButton = document.querySelector("#data_clear")
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#resto");
 
@@ -97,6 +98,12 @@ async function mainEvent() {
     injectHTML(newList);
   });
 }
+
+clearDataButton.addEventListener("click", (event) => {
+  console.log("clear browser data");
+  localStorage.clear();
+  console.log('localStorage check', localStorage.getItem("storedData"))
+})
 /*
       Now that you HAVE a list loaded, write an event listener set to your filter button
       it should use the 'new FormData(target-form)' method to read the contents of your main form
