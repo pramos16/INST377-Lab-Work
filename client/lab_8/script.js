@@ -66,6 +66,7 @@ function markerPlace(array,map) {
 async function mainEvent() {
   // the async keyword means we can make API requests
   const mainForm = document.querySelector(".main_form"); 
+  const filterDataButton = document.querySelector("#filter");
   const loadDataButton = document.querySelector("#data_load");
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#resto");
@@ -82,6 +83,7 @@ async function mainEvent() {
     generateListButton.classList.remove('hidden');
   }
 
+  let storedList = [];
   let currentList = []; 
 
   loadDataButton.addEventListener("click", async (submitEvent) => {
@@ -94,7 +96,7 @@ async function mainEvent() {
     );
 
     // This changes the response from the GET into data we can use - an "object"
-    const storedList = await results.json();
+    storedList = await results.json();
     localStorage.setItem("storedData", JSON.stringify(storedList));
     parsedData = storedList;
 
