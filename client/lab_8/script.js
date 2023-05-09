@@ -35,37 +35,36 @@ function cutRestaurantList(list) {
   }));
 }
 
-function initMap(){
-  const carto = L.map('map').setView([38.98, -76.93], 13);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+function initMap() {
+  const carto = L.map("map").setView([38.98, -76.93], 13);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(carto);
-return carto;
-
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(carto);
+  return carto;
 }
 
-function markerPlace(array,map) {
-  console.log('array for markers', array);
+function markerPlace(array, map) {
+  console.log("array for markers", array);
 
   map.eachLayer((layer) => {
     if (layer instanceof L.Marker) {
       layer.remove();
     }
   });
-  
+
   array.forEach((item) => {
-    console.log('markerPLace', item);
-    const {coordinates} = item.geocoded_column_1;
+    console.log("markerPLace", item);
+    const { coordinates } = item.geocoded_column_1;
 
     L.marker((coordinates[1], coordinates[0])).addTo(map);
-  })
-
+  });
 }
 
 async function mainEvent() {
   // the async keyword means we can make API requests
-  const mainForm = document.querySelector(".main_form"); 
+  const mainForm = document.querySelector(".main_form");
   const filterDataButton = document.querySelector("#filter");
   const loadDataButton = document.querySelector("#data_load");
   const generateListButton = document.querySelector("#generate");
@@ -73,18 +72,18 @@ async function mainEvent() {
 
   const loadAnimation = document.querySelector("#data_load_animation");
   loadAnimation.style.display = "none";
-  generateListButton.classList.add = ("hidden");
+  generateListButton.classList.add = "hidden";
 
   const carto = initMap();
 
   const storedData = localStorage.getItem("storedData");
   let parsedData = JSON.parse(storedData);
   if (parsedData?.length > 0) {
-    generateListButton.classList.remove('hidden');
+    generateListButton.classList.remove("hidden");
   }
 
   let storedList = [];
-  let currentList = []; 
+  let currentList = [];
 
   loadDataButton.addEventListener("click", async (submitEvent) => {
     console.log("loading data");
@@ -101,9 +100,9 @@ async function mainEvent() {
     parsedData = storedList;
 
     if (parsedData?.length > 0) {
-      generateListButton.classList.remove('hidden');
+      generateListButton.classList.remove("hidden");
     }
-    
+
     loadAnimation.style.display = "none";
     // console.table(storedList);
   });
@@ -124,11 +123,11 @@ async function mainEvent() {
     markerPlace(newList, carto);
   });
 
-  clearDataButton.addEventListener('click', (event) => {
-    console.log('clear browser data');
+  clearDataButton.addEventListener("click", (event) => {
+    console.log("clear browser data");
     localStorage.clear();
-    console.log('localStorage Check', localStorage.getItem("storedData"));
-  })
+    console.log("localStorage Check", localStorage.getItem("storedData"));
+  });
 }
 
 document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests
